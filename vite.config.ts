@@ -7,7 +7,10 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   server: {
-    port: 3002
+    port: 3002,
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
   },
   resolve: {
     alias: {
