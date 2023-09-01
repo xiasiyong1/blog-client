@@ -1,5 +1,6 @@
 import type { ArticleCategory } from './article-category'
 import type { ArticleTag } from './article-tag'
+import type { User } from './user'
 
 export interface Article {
   id: number
@@ -19,6 +20,12 @@ export interface Article {
   createTime: Date
 
   updateTime: Date
+
+  author: User
+}
+
+export interface ArticleWithExtra extends Article {
+  viewed: number
 }
 
 export type AddArticle = Omit<Article, 'id' | 'createTime' | 'updateTime'>
@@ -45,4 +52,8 @@ export interface GetArticleParams {
   pageSize?: number
   startTime?: string
   endTime?: string
+}
+
+export interface ArticleStatus {
+  like: boolean
 }

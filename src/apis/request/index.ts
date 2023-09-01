@@ -70,8 +70,6 @@ function attachAPI<T extends APISchema>(
 
 const DEFAULT_BASE_URL = import.meta.env.VITE_REQUEST_BASE_URL
 
-console.log(DEFAULT_BASE_URL)
-
 // 创建请求客户端
 export function createRequestClient<T extends APISchema>(
   requestConfig: CreateRequestConfig<T>

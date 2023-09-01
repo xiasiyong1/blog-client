@@ -1,6 +1,6 @@
 import type { APISchema } from '@/apis/request/type'
 import { createRequestClient } from '@/apis/request/'
-import type { Article } from '@/types/article'
+import type { Article, ArticleStatus, ArticleWithExtra } from '@/types/article'
 import type { ArticleCategory } from '@/types/article-category'
 import type { ArticleTag } from '@/types/article-tag'
 
@@ -30,7 +30,13 @@ interface ArticleAPISchema extends APISchema {
     request: {
       id: number
     }
-    response: Article
+    response: ArticleWithExtra
+  }
+  getArticleStatus: {
+    request: {
+      id: number
+    }
+    response: ArticleStatus
   }
 }
 
@@ -40,7 +46,8 @@ const articleApi = createRequestClient<ArticleAPISchema>({
     getArticleCategory: 'GET /article/category',
     getArticleCategoryTags: 'GET /article/category/:categoryId/tags',
     getCategoryArticles: 'GET /article',
-    getArticleDetail: 'GET /article/:id'
+    getArticleDetail: 'GET /article/:id',
+    getArticleStatus: 'GET /article/status/:id'
   }
 })
 

@@ -15,6 +15,20 @@ const router = createRouter({
       component: Home
     },
     {
+      path: ROUTES.SIGNIN.path,
+      name: ROUTES.SIGNIN.name,
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/views/sign-in/index.vue')
+    },
+    {
+      path: ROUTES.SINGUP.path,
+      name: ROUTES.SINGUP.name,
+      // route level code-splitting
+      component: () => import('@/views/sign-up/index.vue')
+    },
+    {
       path: ROUTES.CATEGORY.path,
       name: ROUTES.CATEGORY.name,
       // route level code-splitting
@@ -45,6 +59,14 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('@/views/article/index.vue')
+    },
+    {
+      path: ROUTES.LIKE_ARTICLES.path,
+      name: ROUTES.LIKE_ARTICLES.name,
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/views/like-articles/index.vue')
     }
   ]
 })
