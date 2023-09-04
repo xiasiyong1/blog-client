@@ -3,13 +3,36 @@
     <img src="@/assets/avatar.webp" class="block w-[30px] h-[30px] rounded-full mr-1 shrink-0" />
     <div>
       <div class="text-[14px]">xiasiyong</div>
-      <div class="text-[10px] text-gray-400">三个星期前</div>
-      <div class="mt-0.5">评论的内容</div>
+      <div class="text-[10px] text-gray-400">{{ comment.createTime }}</div>
+      <div class="mt-0.5">{{ comment.content }}</div>
+      <div v-if="images.length > 0">
+        <img
+          :src="item"
+          alt=""
+          v-for="item in images"
+          :key="item"
+          class="w-[80px] h-[80px] object-cover"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { ArticleComment } from '@/types/article-comment'
+import { computed } from 'vue'
+
+const { comment } = defineProps<{
+  comment: ArticleComment
+}>()
+
+const images = computed(() => {
+  if (comment.images) {
+    return comment.images.split(',')
+  }
+  return []
+})
+</script>
 
 <style scoped>
 .comment-item {

@@ -23,10 +23,38 @@
     </div>
     <div>
       <SectionTitle title="评论列表" />
-      <ArticleComment />
+      <ArticleCommentList :list="articleCommentList" @add-comment="showCommentEditPanel" />
     </div>
     <div class="fixed bottom-0 left-0 w-full h-[40px] flex items-center gap-1 px-1 bg-white">
-      <div class="flex-1"></div>
+      <ActionSheet v-model:show="commentPanelVisible" title="添加评论">
+        <Field
+          v-model="comment.content"
+          rows="4"
+          autosize
+          label="留言"
+          type="textarea"
+          maxlength="200"
+          placeholder="请输入留言"
+          show-word-limit
+        />
+        <Uploader
+          :after-read="afterRead"
+          multiple
+          :max-count="9"
+          v-if="comment.images.length < 9"
+        />
+        <div v-if="comment.images.length > 0" class="flex gap-2">
+          <img
+            :src="item.url"
+            alt=""
+            v-for="item in comment.images"
+            :key="item.url"
+            class="w-[80px] h-[80px] object-cover"
+          />
+        </div>
+        <Button type="primary" class="!mt-2" block @click="submitComment">提交评论</Button>
+      </ActionSheet>
+      <div class="flex-1 text-gray-400" @click="showCommentEditPanel">添加评论</div>
       <Icon name="like-o" size="20" @click="addArticleLike" v-if="!isLike" />
       <Icon name="like" size="20" v-else @click="removeArticleLike" />
       <Icon name="star-o" size="20" @click="addArticleCollect" />
@@ -35,19 +63,23 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from 'vant'
+import { Icon, ActionSheet, Uploader, Field, Button, showToast } from 'vant'
 import SectionTitle from '@/components/section-title/index.vue'
 import RecommendArticleList from '@/components/recommend-article/article-list.vue'
-import ArticleComment from '@/components/article-comment/comment-list.vue'
+import ArticleCommentList from '@/components/article-comment/comment-list.vue'
 import articleApi from '@/apis/article'
 import articleLikeApi from '@/apis/article-like'
+import articleCommentApi from '@/apis/article-comment'
 import type { ArticleWithExtra } from '@/types/article'
+import type { ArticleComment } from '@/types/article-comment'
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import gfm from '@bytemd/plugin-gfm'
 import { Viewer } from '@bytemd/vue-next'
 import 'github-markdown-css/github-markdown.css'
 import { useUserStore } from '@/stores/user'
+import { uploadImages } from '@/apis/upload'
+import type { ImageItem } from '@/types/upload'
 
 const store = useUserStore()
 
@@ -89,8 +121,61 @@ const removeArticleLike = () => {
 }
 const addArticleCollect = () => {}
 
+const commentPanelVisible = ref(false)
+
+const showCommentEditPanel = () => {
+  commentPanelVisible.value = true
+}
+const hideCommentEditPanel = () => {
+  commentPanelVisible.value = false
+}
+
+const comment = ref<{
+  content: string
+  images: ImageItem[]
+}>({
+  content: '',
+  images: []
+})
+
+const afterRead = (fileList) => {
+  let files: File[] = []
+  if (fileList instanceof Array) {
+    files = fileList.map((item) => item.file as File)
+  } else {
+    files = [fileList.file as File]
+  }
+  uploadImages(files).then((res) => {
+    comment.value.images = res
+  })
+}
+
+const articleCommentList = ref<ArticleComment[]>([])
+
+const getArticleCommentList = () => {
+  articleCommentApi.getArticleComments({ articleId: +route.params.id }).then((res) => {
+    console.log(res.data)
+    articleCommentList.value = res.data
+  })
+}
+
+const submitComment = () => {
+  articleCommentApi
+    .addArticleComment({
+      articleId: +route.params.id,
+      content: comment.value.content,
+      images: comment.value.images.map((item) => item.url).join(',')
+    })
+    .then(() => {
+      showToast('提交成功')
+      hideCommentEditPanel()
+      getArticleCommentList()
+    })
+}
+
 onMounted(() => {
   getArticleDetail()
+  getArticleCommentList()
   if (store.isLogin) {
     getArticleStatus()
   }
