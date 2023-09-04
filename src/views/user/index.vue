@@ -10,10 +10,10 @@
     </div>
     <CellGroup class="mt-4">
       <Cell title="浏览记录" is-link />
-      <Cell title="收藏列表" is-link value="12" />
-      <Cell title="我赞过的" is-link value="Content" to="/like-articles" />
+      <Cell title="收藏列表" is-link value="多少篇？" />
+      <Cell title="我赞过的" is-link value="多少篇？" to="/like-articles" />
       <Cell title="发布权限申请" is-link />
-      <Cell title="退出登录" />
+      <Cell title="退出登录" @click="logout" />
     </CellGroup>
   </div>
 </template>
@@ -23,10 +23,20 @@ import { Icon, Cell, CellGroup } from 'vant'
 import { onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
+import { removeAccessToken } from '@/helper/localstorge'
+import { useRouter } from 'vue-router'
+import { ROUTES } from '@/router/constants'
 
 const userStore = useUserStore()
 
+const router = useRouter()
+
 const { userInfo } = storeToRefs(userStore)
+
+const logout = () => {
+  removeAccessToken()
+  router.replace(ROUTES.HOME.path)
+}
 
 onMounted(() => {
   userStore.getAndSetUserInfo()

@@ -1,6 +1,6 @@
 import type { APISchema } from '@/apis/request/type'
 import { createRequestClient } from '@/apis/request/'
-import type { Article, ArticleWithExtra } from '@/types/article'
+import type { Article, ArticleLike, ArticleWithExtra } from '@/types/article'
 import type { ArticleCategory } from '@/types/article-category'
 import type { ArticleTag } from '@/types/article-tag'
 import type { User } from '@/types/user'
@@ -20,7 +20,7 @@ interface ArticleAPISchema extends APISchema {
   }
   findUserLikeArticles: {
     request: {}
-    response: Article[]
+    response: ArticleLike[]
   }
   findArticleLikeUsers: {
     request: {

@@ -57,3 +57,9 @@ export interface GetArticleParams {
 export interface ArticleStatus {
   like: boolean
 }
+
+export interface ArticleLike {
+  article: Article
+  createAr: string
+  id: number
+}

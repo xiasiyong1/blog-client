@@ -2,7 +2,7 @@
   <div class="">
     <Search placeholder="文章搜索" v-model="keyword" @search="onSearch" />
     <BannerList />
-    <section-title title="文章推荐" extra-text="查看全部" extra-link="/" />
+    <section-title title="文章推荐" extra-text="查看全部" extra-link="/category" />
     <ArticleList :list="recommendArticleList" />
   </div>
 </template>
