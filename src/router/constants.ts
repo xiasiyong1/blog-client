@@ -6,7 +6,8 @@ export const ROUTES = {
   NOTICE: { path: '/notice', name: 'notice' },
   ARTICLE_DETAIL: { path: '/article/:id', name: 'articleDetail' },
   USER: { path: '/user', name: 'user' },
-  LIKE_ARTICLES: { path: '/like-articles', name: 'likeArticles' }
+  LIKE_ARTICLES: { path: '/like-articles', name: 'likeArticles' },
+  ADMIN_PERMISSION_APPLY: { path: '/admin-permission-apply', name: 'adminPermissionApply' }
 }
 
 export const TAB_BAR_ROUTES = [

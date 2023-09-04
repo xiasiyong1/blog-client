@@ -17,9 +17,6 @@ const router = createRouter({
     {
       path: ROUTES.SIGNIN.path,
       name: ROUTES.SIGNIN.name,
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('@/views/sign-in/index.vue')
     },
     {
@@ -31,42 +28,32 @@ const router = createRouter({
     {
       path: ROUTES.CATEGORY.path,
       name: ROUTES.CATEGORY.name,
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('@/views/category/index.vue')
     },
     {
       path: ROUTES.NOTICE.path,
       name: ROUTES.NOTICE.name,
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('@/views/notice/index.vue')
     },
     {
       path: ROUTES.USER.path,
       name: ROUTES.USER.name,
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('@/views/user/index.vue')
     },
     {
       path: ROUTES.ARTICLE_DETAIL.path,
       name: ROUTES.ARTICLE_DETAIL.name,
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('@/views/article/index.vue')
     },
     {
       path: ROUTES.LIKE_ARTICLES.path,
       name: ROUTES.LIKE_ARTICLES.name,
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('@/views/like-articles/index.vue')
+    },
+    {
+      path: ROUTES.ADMIN_PERMISSION_APPLY.path,
+      name: ROUTES.ADMIN_PERMISSION_APPLY.name,
+      component: () => import('@/views/admin-permission-apply/index.vue')
     }
   ]
 })

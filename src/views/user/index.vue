@@ -12,7 +12,7 @@
       <Cell title="浏览记录" is-link />
       <Cell title="收藏列表" is-link value="多少篇？" />
       <Cell title="我赞过的" is-link value="多少篇？" to="/like-articles" />
-      <Cell title="发布权限申请" is-link />
+      <Cell title="发布权限申请" is-link :to="ROUTES.ADMIN_PERMISSION_APPLY.path" />
       <Cell title="退出登录" @click="logout" />
     </CellGroup>
   </div>
