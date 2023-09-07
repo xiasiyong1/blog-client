@@ -75,6 +75,7 @@ import type { ArticleComment } from '@/types/article-comment'
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import gfm from '@bytemd/plugin-gfm'
+// @ts-ignore
 import { Viewer } from '@bytemd/vue-next'
 import 'github-markdown-css/github-markdown.css'
 import { useUserStore } from '@/stores/user'
