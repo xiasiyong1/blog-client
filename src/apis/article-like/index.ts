@@ -1,42 +1,10 @@
-import type { APISchema } from '@/apis/request/type'
-import { createRequestClient } from '@/apis/request/'
-import type { Article, ArticleLike, ArticleWithExtra } from '@/types/article'
-import type { ArticleCategory } from '@/types/article-category'
-import type { ArticleTag } from '@/types/article-tag'
-import type { User } from '@/types/user'
+import axiosInstance from '@/helpers/request'
+import type { SimpleSuccessResponse } from '@/types/base'
 
-interface ArticleAPISchema extends APISchema {
-  addArticleLike: {
-    request: {
-      articleId: number
-    }
-    response: {}
-  }
-  removeArticleLike: {
-    request: {
-      articleId: number
-    }
-    response: {}
-  }
-  findUserLikeArticles: {
-    request: {}
-    response: ArticleLike[]
-  }
-  findArticleLikeUsers: {
-    request: {
-      articleId: number
-    }
-    response: User[]
-  }
+export const addArticleLike = (articleId: number) => {
+  return axiosInstance.post<SimpleSuccessResponse>(`/article-like/${articleId}`)
 }
 
-const articleApi = createRequestClient<ArticleAPISchema>({
-  apis: {
-    addArticleLike: 'POST /article-like',
-    removeArticleLike: 'DELETE /article-like/:articleId',
-    findUserLikeArticles: 'GET /article-like/users',
-    findArticleLikeUsers: 'GET /article-like/:articleId'
-  }
-})
-
-export default articleApi
+export const removeArticleLike = (articleId: number) => {
+  return axiosInstance.delete<SimpleSuccessResponse>(`/article-like/${articleId}`)
+}

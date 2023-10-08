@@ -1,13 +1,13 @@
-import type { Article } from '@/types/article'
-import articleApi from '@/apis/article'
 import { onMounted, ref } from 'vue'
+import * as articleRecommendApi from '@/apis/article-recommend'
+import type { Article } from '@/types/article'
 
 const useRecommendArticleList = () => {
   const recommendArticleList = ref<Article[]>([])
 
   const getRecommendArticles = () => {
-    articleApi.getRecommendArticles({}).then((res) => {
-      recommendArticleList.value = res.data
+    articleRecommendApi.getArticleRecommendList().then((res) => {
+      recommendArticleList.value = res.data.data
     })
   }
 

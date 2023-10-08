@@ -4,8 +4,10 @@ import type { Role } from './role'
 export interface User {
   email: string
   id: string
+  username: string
+  avatar?: string
+  gender: GenderEnum
   roles: Role[]
-  profile: Profile
 }
 
 export interface Profile {

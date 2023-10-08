@@ -32,10 +32,10 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { Form, Field, CellGroup, Button, type FormInstance } from 'vant'
-import authApi from '@/apis/auth'
+import * as authApi from '@/apis/auth'
 import { useRouter } from 'vue-router'
 import { ROUTES } from '@/router/constants'
-import { setAccessToken } from '@/helper/localstorge'
+import { setAccessToken } from '@/helpers/local-storge'
 import { useUserStore } from '@/stores/user'
 
 const store = useUserStore()
@@ -51,8 +51,8 @@ const onSubmit = () => {
   // formRef.value
   //   ?.validate()
   //   .then(() => {
-  authApi.signIn(form).then((res) => {
-    setAccessToken(res.data.access_token)
+  authApi.signInWithEmail(form).then((res) => {
+    setAccessToken(res.data.data.access_token)
     store.getAndSetUserInfo()
     router.replace(ROUTES.HOME.path)
   })

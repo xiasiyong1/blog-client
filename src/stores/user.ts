@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { User } from '@/types/user'
 import userApi from '@/apis/user'
-import { getAccessToken } from '@/helper/localstorge'
+import { getAccessToken } from '@/helpers/local-storge'
 
 export const useUserStore = defineStore('user', () => {
   const userInfo = ref<User>()

@@ -1,15 +1,21 @@
 <template>
   <div>
-    <div class="p-1">
-      <div class="text-[16px]">{{ articleDetail?.title }}</div>
+    <div class="p-1" v-if="articleDetail">
+      <div class="text-[16px]">{{ articleDetail.title }}</div>
       <div class="text-[12px] text-gray-400 mt-1 flex gap-1">
-        <span> 【待实现作者】发布于2023/10/01 </span>
+        <span>
+          【{{ articleDetail.user.username }}】发布于{{ formateTime(articleDetail.updateTime) }}
+        </span>
         <span> <Icon name="comment-o" /> 100</span>
         <span><Icon name="like-o" /> 300</span>
         <span><Icon name="browsing-history-o" /> {{ articleDetail?.viewed }}</span>
       </div>
       <div class="mt-1 text-[14px]">
-        <Viewer :value="articleDetail?.content" :plugins="plugins" />
+        <Viewer
+          class="min-h-[200px] bg-white p-1"
+          :value="articleDetail?.content"
+          :plugins="plugins"
+        />
       </div>
     </div>
 
@@ -67,9 +73,9 @@ import { Icon, ActionSheet, Uploader, Field, Button, showToast } from 'vant'
 import SectionTitle from '@/components/section-title/index.vue'
 import RecommendArticleList from '@/components/recommend-article/article-list.vue'
 import ArticleCommentList from '@/components/article-comment/comment-list.vue'
-import articleApi from '@/apis/article'
-import articleLikeApi from '@/apis/article-like'
-import articleCommentApi from '@/apis/article-comment'
+import * as articleApi from '@/apis/article'
+import * as articleLikeApi from '@/apis/article-like'
+import * as articleCommentApi from '@/apis/article-comment'
 import type { ArticleWithExtra } from '@/types/article'
 import type { ArticleComment } from '@/types/article-comment'
 import { onMounted, ref, computed } from 'vue'
@@ -81,13 +87,12 @@ import 'github-markdown-css/github-markdown.css'
 import { useUserStore } from '@/stores/user'
 import { uploadImages } from '@/apis/upload'
 import type { ImageItem } from '@/types/upload'
+import { formateTime } from '@/helpers/time'
 
 const store = useUserStore()
 
 const articleDetail = ref<ArticleWithExtra>()
 const isLike = ref(false)
-
-const author = computed(() => articleDetail.value?.author)
 
 const plugins = [
   gfm()
@@ -96,27 +101,25 @@ const plugins = [
 
 const route = useRoute()
 
-console.log(route)
-
 const getArticleDetail = () => {
-  articleApi.getArticleDetail({ id: +route.params.id }).then((res) => {
-    articleDetail.value = res.data
+  articleApi.getArticleInfoById(+route.params.id).then((res) => {
+    articleDetail.value = res.data.data
   })
 }
 
 const addArticleLike = () => {
-  articleLikeApi.addArticleLike({ articleId: +route.params.id }).then((res) => {
+  articleLikeApi.addArticleLike(+route.params.id).then((res) => {
     isLike.value = true
   })
 }
 const getArticleStatus = () => {
-  articleApi.getArticleStatus({ id: +route.params.id }).then((res) => {
-    isLike.value = res.data.like
+  articleApi.getArticleExtraData(+route.params.id).then((res) => {
+    isLike.value = res.data.data.isLike
   })
 }
 
 const removeArticleLike = () => {
-  articleLikeApi.removeArticleLike({ articleId: +route.params.id }).then(() => {
+  articleLikeApi.removeArticleLike(+route.params.id).then(() => {
     isLike.value = false
   })
 }
@@ -154,16 +157,14 @@ const afterRead = (fileList) => {
 const articleCommentList = ref<ArticleComment[]>([])
 
 const getArticleCommentList = () => {
-  articleCommentApi.getArticleComments({ articleId: +route.params.id }).then((res) => {
-    console.log(res.data)
-    articleCommentList.value = res.data
+  articleCommentApi.getArticleComments(+route.params.id).then((res) => {
+    articleCommentList.value = res.data.data
   })
 }
 
 const submitComment = () => {
   articleCommentApi
-    .addArticleComment({
-      articleId: +route.params.id,
+    .addArticleComment(+route.params.id, {
       content: comment.value.content,
       images: comment.value.images.map((item) => item.url).join(',')
     })

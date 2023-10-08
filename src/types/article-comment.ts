@@ -1,5 +1,11 @@
+import type { BaseResponse } from './base'
 import type { Article } from './article'
 import type { User } from './user'
+
+export interface ArticleCommentDto {
+  content: string
+  images?: string
+}
 
 export interface ArticleComment {
   id: number
@@ -8,11 +14,13 @@ export interface ArticleComment {
 
   images: string
 
-  createTime: Date
+  createTime: string
 
-  updateTime: Date
+  updateTime: string
 
   article: Article
 
   user: User
 }
+
+export type GetArticleCommentsResponse = BaseResponse<ArticleComment[]>

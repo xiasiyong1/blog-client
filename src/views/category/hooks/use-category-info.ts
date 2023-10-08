@@ -36,7 +36,6 @@ const useCategoryInfo = () => {
   }
 
   watch(activeCategoryIdx, (newVal) => {
-    console.log('activeCategoryIdx', newVal)
     getArticleCategoryTags(categoryList.value[newVal].id)
   })
 

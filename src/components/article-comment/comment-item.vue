@@ -1,9 +1,12 @@
 <template>
   <div class="flex mb-1 pb-1 comment-item">
-    <img src="@/assets/avatar.webp" class="block w-[30px] h-[30px] rounded-full mr-1 shrink-0" />
+    <img
+      :src="comment.user.avatar || defaultAvatar"
+      class="block w-[30px] h-[30px] rounded-full mr-1 shrink-0"
+    />
     <div>
-      <div class="text-[14px]">xiasiyong</div>
-      <div class="text-[10px] text-gray-400">{{ comment.createTime }}</div>
+      <div class="text-[14px]">{{ comment.user.username }}</div>
+      <div class="text-[10px] text-gray-400">{{ formateTime(comment.createTime) }}</div>
       <div class="mt-0.5">{{ comment.content }}</div>
       <div v-if="images.length > 0">
         <img
@@ -21,10 +24,14 @@
 <script setup lang="ts">
 import type { ArticleComment } from '@/types/article-comment'
 import { computed } from 'vue'
+import { formateTime } from '@/helpers/time'
+import { getDefaultAvatar } from '@/helpers/avatar'
 
 const { comment } = defineProps<{
   comment: ArticleComment
 }>()
+
+const defaultAvatar = getDefaultAvatar(comment.user.gender)
 
 const images = computed(() => {
   if (comment.images) {

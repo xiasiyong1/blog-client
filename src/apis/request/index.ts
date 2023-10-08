@@ -7,7 +7,7 @@ import type {
   CreateRequestConfig,
   CreateRequestClient
 } from './type'
-import { getAccessToken } from '@/helper/localstorge'
+import { getAccessToken } from '@/helpers/local-storge'
 import router from '@/router'
 // import { ElMessage } from 'element-plus'
 // useRouter只能在setUp中使用

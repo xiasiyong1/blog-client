@@ -5,7 +5,7 @@
       <div class="flex justify-between mt-1">
         <div class="mr-2">
           <div class="text-gray-500">
-            <span>夏思勇</span>
+            <span>{{ article.user.username }}</span>
             <span class="px-1">|</span>
             <span>2天前</span>
           </div>
@@ -17,7 +17,11 @@
             <span><Icon name="chat-o" /> 20</span>
           </div>
         </div>
-        <img :src="article.cover" class="block w-[100px] h-[80px] object-cover" alt="" />
+        <img
+          :src="article.cover || defaultCover"
+          class="block w-[100px] h-[80px] object-cover"
+          alt=""
+        />
       </div>
     </div>
   </router-link>
@@ -25,6 +29,7 @@
 
 <script setup lang="ts">
 import type { Article } from '@/types/article'
+import defaultCover from '@/assets/default-cover.webp'
 import { Icon } from 'vant'
 
 const { article } = defineProps<{

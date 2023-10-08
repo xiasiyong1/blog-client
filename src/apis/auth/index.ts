@@ -1,34 +1,11 @@
-import type { APISchema } from '@/apis/request/type'
-import { createRequestClient } from '@/apis/request/'
-import type { User } from '@/types/user'
+import axiosInstance from '@/helpers/request'
+import type { SignInWithEmailDto, SignInWithEmailResponse, SignUpWithEmailDto } from '@/types/auth'
+import type { SimpleSuccessResponse } from '@/types/base'
 
-interface AuthAPISchema extends APISchema {
-  signUp: {
-    request: {
-      email: string
-      password: string
-      code: string
-    }
-    response: {}
-  }
-
-  signIn: {
-    request: {
-      email: string
-      password: string
-    }
-    response: {
-      access_token: string
-      user: User
-    }
-  }
+export const signInWithEmail = (params: SignInWithEmailDto) => {
+  return axiosInstance.post<SignInWithEmailResponse>('/auth/admin/email/signin', params)
 }
 
-const authApi = createRequestClient<AuthAPISchema>({
-  apis: {
-    signUp: 'POST /auth/email/signup',
-    signIn: 'POST /auth/email/signin'
-  }
-})
-
-export default authApi
+export const signUpWithEmail = (params: SignUpWithEmailDto) => {
+  return axiosInstance.post<SimpleSuccessResponse>('/auth/admin/email/signup', params)
+}

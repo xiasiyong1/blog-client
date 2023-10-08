@@ -23,7 +23,7 @@ import { Icon, Cell, CellGroup } from 'vant'
 import { onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { removeAccessToken } from '@/helper/localstorge'
+import { removeAccessToken } from '@/helpers/local-storge'
 import { useRouter } from 'vue-router'
 import { ROUTES } from '@/router/constants'
 
@@ -44,3 +44,4 @@ onMounted(() => {
 </script>
 
 <style></style>
+@/helpers/localstorge

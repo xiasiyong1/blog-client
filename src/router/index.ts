@@ -43,7 +43,7 @@ const router = createRouter({
     {
       path: ROUTES.ARTICLE_DETAIL.path,
       name: ROUTES.ARTICLE_DETAIL.name,
-      component: () => import('@/views/article/index.vue')
+      component: () => import('@/views/article-detail/index.vue')
     },
     {
       path: ROUTES.LIKE_ARTICLES.path,
