@@ -5,7 +5,7 @@ on:
     branches: [master] #只有在master分支上才会执行
 jobs:
   build:
-    runs-on: ubuntu-20.04 #指定构建的虚拟机版本
+    runs-on: ubuntu-latest #指定构建的虚拟机版本
     steps:
       - name: Checkout #检出
         uses: actions/checkout@main #检出的依赖2
@@ -38,3 +38,10 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.USER }}
           TARGET: '/data/www/blog-client' #目标文件目录
+          SCRIPT_BEFORE: |
+            whoami
+            ls -al
+          SCRIPT_AFTER: |
+            whoami
+            ls -al
+            echo $RSYNC_STDOUT
