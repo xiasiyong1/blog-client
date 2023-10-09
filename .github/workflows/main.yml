@@ -1,8 +1,8 @@
-name: NodeJS with vuepro #随便起的名字
+name: blog-client deploy #随便起的名字
 
 on:
   push: #在每次push时执行任务
-    branches: [main] #只有在master分支上才会执行
+    branches: [master] #只有在master分支上才会执行
 jobs:
   build:
     runs-on: ubuntu-latest #指定构建的虚拟机版本
@@ -29,12 +29,12 @@ jobs:
       - name: build project
         run: |
           npm run build
-      - name: deploy file to server
-        uses: easingthemes/ssh-deploy@main #dd
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.4
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
-          ARGS: '-rlgoDzvc -i --delete'
-          SOURCE: 'dist/'
-          REMOTE_HOST: ${{ secrets.HOST }}
-          REMOTE_USER: ${{ secrets.USER }}
-          TARGET: '/data/www/aaa' #目标文件目录
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: dist/
+          target: ~/blog/blog-admin/dist/
