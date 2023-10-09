@@ -37,7 +37,7 @@ jobs:
           SOURCE: 'dist/'
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.USER }}
-          TARGET: '/data/www/blog-client' #目标文件目录
+          TARGET: '/data/www/aaa' #目标文件目录
           SCRIPT_BEFORE: |
             whoami
             ls -al
