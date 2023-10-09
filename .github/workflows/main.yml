@@ -34,6 +34,7 @@ jobs:
         env:
           REMOTE_USER: ${{secrets.USER}} #ssh user name
           REMOTE_HOST: ${{secrets.HOST}} #目标地址,在github secrets中设置
+          REMOTE_PORT: 22 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa
           ARGS: '-avz --delete' #参数
           SSH_PRIVATE_KEY: ${{secrets.ACCESS_TOKEN}} #github access token
           SOURCE: 'dist/' #源文件目录
