@@ -2,7 +2,7 @@ name: NodeJS with vuepro #随便起的名字
 
 on:
   push: #在每次push时执行任务
-    branches: [master] #只有在master分支上才会执行
+    branches: [main] #只有在master分支上才会执行
 jobs:
   build:
     runs-on: ubuntu-latest #指定构建的虚拟机版本
