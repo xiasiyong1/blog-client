@@ -37,4 +37,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           source: dist/
-          target: ~/blog/blog-client/dist/
+          target: ~/blog/blog-client/
+          rm: true
