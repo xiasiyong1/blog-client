@@ -10,7 +10,7 @@
         <span><Icon name="like-o" /> {{ likeCount }}</span>
         <span><Icon name="browsing-history-o" /> {{ viewCount }}</span>
       </div>
-      <div class="mt-1 text-[14px]">
+      <div class="!mt-1 text-[14px] markdown-body">
         <Viewer class="min-h-[200px] p-1" :value="articleDetail.content" :plugins="plugins" />
       </div>
     </div>
@@ -62,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+import 'bytemd/dist/index.css'
 import { Icon, ActionSheet, Uploader, Field, Button, showToast } from 'vant'
 import SectionTitle from '@/components/section-title/index.vue'
 import ArticleCommentList from '@/components/article-comment/comment-list.vue'
