@@ -30,13 +30,13 @@ jobs:
         run: |
           npm run build
       - name: deploy file to server
-        uses: easingthemes/ssh-deploy@v2.0.7 #dd
+        uses: easingthemes/ssh-deploy@main #dd
         env:
-          REMOTE_USER: ${{secrets.USER}} #ssh user name
-          REMOTE_HOST: ${{secrets.HOST}} #目标地址,在github secrets中设置
+          REMOTE_USER: ${{ secrets.USER }} #ssh user name
+          REMOTE_HOST: ${{ secrets.HOST }} #目标地址,在github secrets中设置
           REMOTE_PORT: 22 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa
-          ARGS: '-avz --delete' #参数
-          SSH_PRIVATE_KEY: ${{secrets.ACCESS_TOKEN}} #github access token
+          ARGS: '-rlgoDzvc -i --delete'
+          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }} #github access token
           SOURCE: 'dist/' #源文件目录
           TARGET: '/data/www/blog-client' #目标文件目录
           # 上面几个参数可以在github secrets中设置,然后用secrets.的模式引用
