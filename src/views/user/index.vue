@@ -12,7 +12,7 @@
       <Icon name="arrow" size="24" color="#ddd" />
     </div>
     <CellGroup class="mt-4">
-      <Cell title="浏览记录" is-link />
+      <!-- <Cell title="浏览记录" is-link /> -->
       <Cell title="我赞过的" is-link to="/like-articles" />
       <Cell title="发布权限申请" is-link :to="ROUTES.ADMIN_PERMISSION_APPLY.path" />
       <Cell title="退出登录" @click="logout" />
