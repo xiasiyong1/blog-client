@@ -1,19 +1,7 @@
-import type { APISchema } from '@/apis/request/type'
-import { createRequestClient } from '@/apis/request/'
+import axiosInstance from '@/helpers/request'
+import type { SendEmailCodeDto } from '@/types/email'
+import type { SimpleSuccessResponse } from '@/types/base'
 
-interface EmailAPISchema extends APISchema {
-  getCode: {
-    request: {
-      email: string
-    }
-    response: {}
-  }
+export const sendEmailCodeDto = (params: SendEmailCodeDto) => {
+  return axiosInstance.post<SimpleSuccessResponse>('/email/code', { params })
 }
-
-const emailApi = createRequestClient<EmailAPISchema>({
-  apis: {
-    getCode: 'GET /email/code'
-  }
-})
-
-export default emailApi

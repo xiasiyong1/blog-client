@@ -45,8 +45,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { Form, Field, CellGroup, Button, type FormInstance } from 'vant'
-import authApi from '@/apis/auth'
-import emailApi from '@/apis/email'
+import * as authApi from '@/apis/auth'
+import * as emailApi from '@/apis/email'
 import { CodeStatusEnum } from '@/enums/code'
 import { useRouter } from 'vue-router'
 import { ROUTES } from '@/router/constants'
@@ -91,7 +91,7 @@ const startCountDown = () => {
 
 const getCode = () => {
   formRef.value?.validate('email').then(() => {
-    emailApi.getCode({ email: form.email }).then(() => {
+    emailApi.sendEmailCodeDto({ email: form.email }).then(() => {
       codeStatus.value = CodeStatusEnum.SEND
       startCountDown()
     })
@@ -99,7 +99,7 @@ const getCode = () => {
 }
 const onSubmit = () => {
   formRef.value?.validate().then((res) => {
-    authApi.signUp(form).then(() => {
+    authApi.signUpWithEmail(form).then(() => {
       router.replace(ROUTES.SIGNIN.path)
     })
   })
