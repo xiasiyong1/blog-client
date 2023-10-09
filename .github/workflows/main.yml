@@ -29,12 +29,12 @@ jobs:
       - name: build project
         run: |
           npm run build
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@6.0.0
+      - name: deploy file to server
+        uses: easingthemes/ssh-deploy@main #dd
         with:
-          switches: -avzr --delete
-          path: src/
-          remote_path: /data/www/blog-client
-          remote_host: ${{ secrets.HOST }}
-          remote_user: ${{ secrets.USER }}
-          remote_key: ${{ secrets.ACCESS_TOKEN }}
+          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
+          ARGS: '-rlgoDzvc -i --delete'
+          SOURCE: 'dist/'
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.USER }}
+          TARGET: '/data/www/blog-client' #目标文件目录
