@@ -1,5 +1,6 @@
 import type { GenderEnum } from '@/enums/gender'
 import type { Role } from './role'
+import type { BaseResponse } from './base'
 
 export interface User {
   email: string
@@ -27,3 +28,5 @@ export interface GetUserList {
   roles?: number[]
   email?: string
 }
+
+export type GetUserInfoResponse = BaseResponse<User>

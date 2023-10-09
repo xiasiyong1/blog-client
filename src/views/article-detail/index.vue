@@ -1,32 +1,24 @@
 <template>
-  <div>
+  <div class="">
     <div class="p-1" v-if="articleDetail">
       <div class="text-[16px]">{{ articleDetail.title }}</div>
       <div class="text-[12px] text-gray-400 mt-1 flex gap-1">
         <span>
           【{{ articleDetail.user.username }}】发布于{{ formateTime(articleDetail.updateTime) }}
         </span>
-        <span> <Icon name="comment-o" /> 100</span>
-        <span><Icon name="like-o" /> 300</span>
-        <span><Icon name="browsing-history-o" /> {{ articleDetail?.viewed }}</span>
+        <span> <Icon name="comment-o" /> {{ commentCount }}</span>
+        <span><Icon name="like-o" /> {{ likeCount }}</span>
+        <span><Icon name="browsing-history-o" /> {{ viewCount }}</span>
       </div>
       <div class="mt-1 text-[14px]">
-        <Viewer
-          class="min-h-[200px] bg-white p-1"
-          :value="articleDetail?.content"
-          :plugins="plugins"
-        />
+        <Viewer class="min-h-[200px] p-1" :value="articleDetail.content" :plugins="plugins" />
       </div>
     </div>
 
-    <!-- <div class="text-[16px] mt-1">
-      <div>点赞列表</div>
-    </div> -->
-
-    <div>
+    <!-- <div>
       <SectionTitle title="相关文章" />
       <RecommendArticleList />
-    </div>
+    </div> -->
     <div>
       <SectionTitle title="评论列表" />
       <ArticleCommentList :list="articleCommentList" @add-comment="showCommentEditPanel" />
@@ -43,19 +35,21 @@
           placeholder="请输入留言"
           show-word-limit
         />
-        <Uploader
-          :after-read="afterRead"
-          multiple
-          :max-count="9"
-          v-if="comment.images.length < 9"
-        />
-        <div v-if="comment.images.length > 0" class="flex gap-2">
-          <img
-            :src="item.url"
-            alt=""
-            v-for="item in comment.images"
-            :key="item.url"
-            class="w-[80px] h-[80px] object-cover"
+        <div class="flex gap-1 p-1">
+          <div v-if="comment.images.length > 0" class="flex gap-2">
+            <img
+              :src="item.url"
+              alt=""
+              v-for="item in comment.images"
+              :key="item.url"
+              class="w-[80px] h-[80px] object-cover"
+            />
+          </div>
+          <Uploader
+            :after-read="afterRead"
+            multiple
+            :max-count="9"
+            v-if="comment.images.length < 9"
           />
         </div>
         <Button type="primary" class="!mt-2" block @click="submitComment">提交评论</Button>
@@ -63,7 +57,6 @@
       <div class="flex-1 text-gray-400" @click="showCommentEditPanel">添加评论</div>
       <Icon name="like-o" size="20" @click="addArticleLike" v-if="!isLike" />
       <Icon name="like" size="20" v-else @click="removeArticleLike" />
-      <Icon name="star-o" size="20" @click="addArticleCollect" />
     </div>
   </div>
 </template>
@@ -71,14 +64,13 @@
 <script setup lang="ts">
 import { Icon, ActionSheet, Uploader, Field, Button, showToast } from 'vant'
 import SectionTitle from '@/components/section-title/index.vue'
-import RecommendArticleList from '@/components/recommend-article/article-list.vue'
 import ArticleCommentList from '@/components/article-comment/comment-list.vue'
 import * as articleApi from '@/apis/article'
 import * as articleLikeApi from '@/apis/article-like'
 import * as articleCommentApi from '@/apis/article-comment'
-import type { ArticleWithExtra } from '@/types/article'
+import type { Article } from '@/types/article'
 import type { ArticleComment } from '@/types/article-comment'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import gfm from '@bytemd/plugin-gfm'
 // @ts-ignore
@@ -91,8 +83,11 @@ import { formateTime } from '@/helpers/time'
 
 const store = useUserStore()
 
-const articleDetail = ref<ArticleWithExtra>()
+const articleDetail = ref<Article>()
 const isLike = ref(false)
+const likeCount = ref(0)
+const commentCount = ref(0)
+const viewCount = ref(0)
 
 const plugins = [
   gfm()
@@ -115,6 +110,9 @@ const addArticleLike = () => {
 const getArticleStatus = () => {
   articleApi.getArticleExtraData(+route.params.id).then((res) => {
     isLike.value = res.data.data.isLike
+    likeCount.value = res.data.data.likeCount
+    commentCount.value = res.data.data.commentCount
+    viewCount.value = res.data.data.viewCount
   })
 }
 
@@ -123,7 +121,6 @@ const removeArticleLike = () => {
     isLike.value = false
   })
 }
-const addArticleCollect = () => {}
 
 const commentPanelVisible = ref(false)
 
@@ -150,6 +147,7 @@ const afterRead = (fileList) => {
     files = [fileList.file as File]
   }
   uploadImages(files).then((res) => {
+    console.log(res)
     comment.value.images = res
   })
 }
@@ -172,6 +170,7 @@ const submitComment = () => {
       showToast('提交成功')
       hideCommentEditPanel()
       getArticleCommentList()
+      getArticleStatus()
     })
 }
 

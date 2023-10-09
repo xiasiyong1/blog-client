@@ -1,6 +1,7 @@
 import type { ArticleCategory } from '@/types/article-category'
 import type { ArticleTag } from '@/types/article-tag'
-import articleApi from '@/apis/article'
+import * as articleCategoryApi from '@/apis/article-category'
+import * as articleApi from '@/apis/article'
 import { onMounted, ref, watch } from 'vue'
 import type { Article } from '@/types/article'
 
@@ -12,23 +13,23 @@ const useCategoryInfo = () => {
   const activeTagId = ref<number>(-1)
 
   const getArticleCategoryList = () => {
-    return articleApi.getArticleCategory({}).then((res) => {
-      categoryList.value = res.data
+    return articleCategoryApi.getArticleCategoryList({}).then((res) => {
+      categoryList.value = res.data.data
       return res.data
     })
   }
 
   const getArticles = (categoryId: number, tagId: number) => {
-    articleApi.getCategoryArticles({ categoryId, tagId }).then((res) => {
-      categoryArticleList.value = res.data.articleList
+    articleApi.findArticleList({ categoryId, tagId }).then((res) => {
+      categoryArticleList.value = res.data.data.articleList
     })
   }
 
   const getArticleCategoryTags = (categoryId: number) => {
-    return articleApi.getArticleCategoryTags({ categoryId }).then((res) => {
-      tagList.value = res.data
-      if (res.data && res.data.length > 0) {
-        activeTagId.value = res.data[0].id
+    return articleCategoryApi.getTagsByArticleCategoryId(categoryId).then((res) => {
+      tagList.value = res.data.data
+      if (res.data && res.data.data.length > 0) {
+        activeTagId.value = res.data.data[0].id
       } else {
         activeTagId.value = -1
       }
@@ -40,6 +41,7 @@ const useCategoryInfo = () => {
   })
 
   watch(activeTagId, (newVal) => {
+    console.log(123, activeTagId)
     if (activeTagId.value !== -1) {
       const categoryId = categoryList.value[activeCategoryIdx.value].id
       if (categoryId) {
@@ -52,7 +54,7 @@ const useCategoryInfo = () => {
 
   onMounted(() => {
     getArticleCategoryList().then((res) => {
-      getArticleCategoryTags(res[0].id)
+      getArticleCategoryTags(res.data[0].id)
     })
   })
 

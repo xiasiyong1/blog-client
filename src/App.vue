@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView, useRouter } from 'vue-router'
+import { RouterView, useRouter, useRoute } from 'vue-router'
 import { Tabbar, TabbarItem } from 'vant'
 import { ref } from 'vue'
 import { watch } from 'vue'
@@ -8,6 +8,7 @@ import { computed } from 'vue'
 
 const active = ref(0)
 const router = useRouter()
+const route = useRoute()
 const tabList = [
   { icon: 'home-o', text: '首页', path: '/home' },
   { icon: 'apps-o', text: '全部分类', path: '/category' },
@@ -16,10 +17,10 @@ const tabList = [
 ]
 
 watch(
-  () => active.value,
-  (val) => {
-    const { path } = tabList[val]
-    router.push(path)
+  () => route.path,
+  (value) => {
+    const index = tabList.findIndex((tab) => tab.path === value)
+    active.value = index
   }
 )
 
@@ -36,7 +37,9 @@ const showTabBar = computed(() => {
     <div class="text-gray-200 pb-6 text-center">把学的记录下来吧～</div>
   </div>
   <Tabbar v-model="active" v-if="showTabBar">
-    <TabbarItem :icon="tab.icon" v-for="tab in tabList" :key="tab.path">{{ tab.text }}</TabbarItem>
+    <TabbarItem :icon="tab.icon" v-for="tab in tabList" :key="tab.path" :to="tab.path">{{
+      tab.text
+    }}</TabbarItem>
   </Tabbar>
 </template>
 

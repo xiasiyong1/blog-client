@@ -5,16 +5,12 @@
       <div class="flex justify-between mt-1">
         <div class="mr-2">
           <div class="text-gray-500">
-            <span>{{ article.user.username }}</span>
+            <span>{{ article.user?.username }}</span>
             <span class="px-1">|</span>
-            <span>2天前</span>
+            <span>{{ formateTime(article.updateTime) }}</span>
           </div>
           <div class="text-[14px] leading-1 mt-1 text-gray-700">
             {{ article.summary }}
-          </div>
-          <div class="mt-1 flex gap-x-1">
-            <span><Icon name="like-o" /> 100</span>
-            <span><Icon name="chat-o" /> 20</span>
           </div>
         </div>
         <img
@@ -31,6 +27,7 @@
 import type { Article } from '@/types/article'
 import defaultCover from '@/assets/default-cover.webp'
 import { Icon } from 'vant'
+import { formateTime } from '@/helpers/time'
 
 const { article } = defineProps<{
   article: Article

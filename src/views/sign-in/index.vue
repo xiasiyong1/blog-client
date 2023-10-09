@@ -33,7 +33,7 @@
 import { reactive, ref } from 'vue'
 import { Form, Field, CellGroup, Button, type FormInstance } from 'vant'
 import * as authApi from '@/apis/auth'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ROUTES } from '@/router/constants'
 import { setAccessToken } from '@/helpers/local-storge'
 import { useUserStore } from '@/stores/user'
@@ -41,23 +41,22 @@ import { useUserStore } from '@/stores/user'
 const store = useUserStore()
 
 const router = useRouter()
-const formRef = ref<FormInstance>()
+const route = useRoute()
 
 const form = reactive({
   email: '',
   password: ''
 })
+
 const onSubmit = () => {
-  // formRef.value
-  //   ?.validate()
-  //   .then(() => {
-  authApi.signInWithEmail(form).then((res) => {
+  authApi.signInWithEmail(form).then(async (res) => {
     setAccessToken(res.data.data.access_token)
-    store.getAndSetUserInfo()
-    router.replace(ROUTES.HOME.path)
+    console.log(123123)
+    await store.getAndSetUserInfo()
+    console.log(1231234, store.isLogin)
+    const redirect = route.query.redirect as string
+    router.replace(redirect || ROUTES.HOME.path)
   })
-  // })
-  // .catch((err) => console.log(err))
 }
 </script>
 

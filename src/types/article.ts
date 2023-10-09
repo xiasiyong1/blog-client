@@ -1,5 +1,6 @@
 import type { ArticleTag } from './article-tag'
 import type { BaseResponse } from './base'
+import type { User } from './user'
 
 export interface Article {
   id: number
@@ -16,9 +17,11 @@ export interface Article {
 
   tags: ArticleTag[]
 
-  createTime: Date
+  createTime: string
 
-  updateTime: Date
+  updateTime: string
+
+  user: User
 }
 
 export interface ArticleConditionParams {
@@ -37,7 +40,7 @@ export interface CreateArticleDto
 export interface FindArticleListDto {
   title?: string
   categoryId?: number
-  tagIds?: number[]
+  tagId?: number
   currentPage?: number
   pageSize?: number
 }
@@ -52,4 +55,7 @@ export type FindArticleListResponse = BaseResponse<{
 export type GetArticleInfoByIdResponse = BaseResponse<Article>
 export type RetArticleExtraDataResponse = BaseResponse<{
   isLike: boolean
+  likeCount: number
+  commentCount: number
+  viewCount: number
 }>
