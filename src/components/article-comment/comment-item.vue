@@ -5,9 +5,9 @@
       class="block w-[30px] h-[30px] rounded-full mr-1 shrink-0"
     />
     <div>
-      <div class="text-[14px]">{{ comment.user.username }}</div>
-      <div class="text-[10px] text-gray-400">{{ formateTime(comment.createTime) }}</div>
-      <div class="mt-0.5">{{ comment.content }}</div>
+      <div>{{ comment.user.username }}</div>
+      <div class="text-s text-weak">{{ formateTime(comment.createTime) }}</div>
+      <div class="mt-1">{{ comment.content }}</div>
       <div v-if="images.length > 0">
         <img
           :src="item"

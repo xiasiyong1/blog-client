@@ -30,11 +30,11 @@ const showTabBar = computed(() => {
 </script>
 
 <template>
-  <div class="pb-[30px] h-[100vh] flex flex-col">
+  <div class="pb-[60px] h-[100vh] flex flex-col overflow-scroll">
     <div class="flex-1">
       <RouterView />
     </div>
-    <div class="text-gray-200 pb-6 text-center">把学的记录下来吧～</div>
+    <div class="text-weakest pb-6 text-center">把学的记录下来吧～</div>
   </div>
   <Tabbar v-model="active" v-if="showTabBar">
     <TabbarItem :icon="tab.icon" v-for="tab in tabList" :key="tab.path" :to="tab.path">{{

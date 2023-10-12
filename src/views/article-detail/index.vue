@@ -1,8 +1,8 @@
 <template>
   <div class="">
     <div class="p-1" v-if="articleDetail">
-      <div class="text-[16px]">{{ articleDetail.title }}</div>
-      <div class="text-[12px] text-gray-400 mt-1 flex gap-1">
+      <div class="text-l">{{ articleDetail.title }}</div>
+      <div class="text-s text-weakest mt-1 flex gap-1">
         <span>
           【{{ articleDetail.user.username }}】发布于{{ formateTime(articleDetail.updateTime) }}
         </span>
@@ -10,7 +10,7 @@
         <span><Icon name="like-o" /> {{ likeCount }}</span>
         <span><Icon name="browsing-history-o" /> {{ viewCount }}</span>
       </div>
-      <div class="!mt-1 text-[14px] markdown-body">
+      <div class="!mt-1 markdown-body">
         <Viewer class="min-h-[200px] p-1" :value="articleDetail.content" :plugins="plugins" />
       </div>
     </div>
@@ -54,9 +54,9 @@
         </div>
         <Button type="primary" class="!mt-2" block @click="submitComment">提交评论</Button>
       </ActionSheet>
-      <div class="flex-1 text-gray-400" @click="showCommentEditPanel">添加评论</div>
-      <Icon name="like-o" size="20" @click="addArticleLike" v-if="!isLike" />
-      <Icon name="like" size="20" v-else @click="removeArticleLike" />
+      <div class="flex-1 text-weak pl-1 text-m" @click="showCommentEditPanel">添加评论</div>
+      <Icon name="like-o" size="24" @click="addArticleLike" v-if="!isLike" />
+      <Icon name="like" class="text-success" size="24" v-else @click="removeArticleLike" />
     </div>
   </div>
 </template>

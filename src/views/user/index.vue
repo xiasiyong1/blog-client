@@ -5,9 +5,9 @@
         :src="userInfo?.avatar || defaultAvatar"
         class="block w-[60px] h-[60px] rounded-full mr-1 shrink-0"
       />
-      <div class="flex-1">
-        <div class="text-[16px]">{{ userInfo?.username }}</div>
-        <div class="text-[12px] mt-1 text-gray-400">{{ userInfo?.email }}</div>
+      <div class="flex-1 ml-2">
+        <div class="text-l">{{ userInfo?.username }}</div>
+        <div class="text-s text-weak mt-1">{{ userInfo?.email }}</div>
       </div>
       <Icon name="arrow" size="24" color="#ddd" />
     </div>

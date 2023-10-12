@@ -1,9 +1,9 @@
 <template>
-  <div class="text-[16px] flex justify-between items-center px-1 mt-1">
+  <div class="text-l flex justify-between items-center px-2 mt-1">
     <span>{{ props.title }}</span>
     <router-link
       :to="props.extraLink"
-      class="text-gray-400 text-[12px]"
+      class="text-weak text-s"
       v-if="props.extraText && props.extraLink"
     >
       {{ props.extraText }} <Icon name="arrow" />
